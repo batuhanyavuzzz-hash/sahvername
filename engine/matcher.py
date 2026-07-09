@@ -5,20 +5,26 @@ import json
 from pathlib import Path
 from typing import Iterable
 
+from .extra_recipes import get_extra_recipes
 from .normalizer import normalize_many
 from .scoring import MatchResult, score_recipe
 
 
 def load_recipes(path: str | Path) -> list[dict]:
+    """Load curated JSON recipes and append the expanded starter catalog."""
     with Path(path).open("r", encoding="utf-8") as f:
-        return json.load(f)
+        recipes = json.load(f)
+
+    existing_ids = {recipe.get("id") for recipe in recipes}
+    recipes.extend(get_extra_recipes(existing_ids=existing_ids))
+    return recipes
 
 
 def all_ingredients(recipes: Iterable[dict]) -> list[str]:
     pool: set[str] = set()
     for recipe in recipes:
         for key in ("required_ingredients", "optional_ingredients", "pantry_items"):
-            pool |= set(recipe.get(key, []))
+            pool |= {item for item in recipe.get(key, []) if str(item).strip()}
     return sorted(pool, key=lambda x: x.lower())
 
 
