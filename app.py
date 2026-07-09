@@ -45,9 +45,9 @@ with st.sidebar:
     cuisine = st.selectbox("Mutfak", cuisines)
     category = st.selectbox("Kategori", categories)
     time_choice = st.selectbox("Maksimum süre", ["Fark etmez", "15 dk", "30 dk", "45 dk", "60 dk"])
-    missing_choice = st.selectbox("Eksik zorunlu malzeme toleransı", [0, 1, 2, "Fark etmez"], index=2)
+    missing_choice = st.selectbox("Eksik zorunlu malzeme toleransı", [0, 1, 2, 3, "Fark etmez"], index=3)
     include_pantry = st.checkbox("Tuz, su, yağ gibi temel malzemeleri var say", value=True)
-    min_score = st.slider("Minimum uyum skoru", min_value=0, max_value=100, value=35, step=5)
+    min_score = st.slider("Minimum uyum skoru", min_value=0, max_value=100, value=25, step=5)
 
 time_map = {"15 dk": 15, "30 dk": 30, "45 dk": 45, "60 dk": 60}
 max_time = time_map.get(time_choice)
@@ -55,7 +55,7 @@ max_missing = None if missing_choice == "Fark etmez" else int(missing_choice)
 
 if not selected:
     st.info("Soldan elindeki birkaç malzemeyi seç. İlk sonuçlar uyum yüzdesine göre sıralanacak.")
-    st.subheader("Şahvername V0.1 veri havuzu")
+    st.subheader("Şahvername V0.2 veri havuzu")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Tarif", len(recipes))
     col2.metric("Mutfak", len({r['cuisine'] for r in recipes}))
@@ -74,10 +74,30 @@ results = match_recipes(
     min_score=min_score,
 )
 
-st.subheader(f"{len(results)} tarif bulundu")
+fallback_mode = False
+if not results:
+    fallback_mode = True
+    st.warning(
+        "Bu filtrelerle tam sonuç çıkmadı. Filtreleri gevşetip en yakın tarifleri gösteriyorum."
+    )
+    results = match_recipes(
+        recipes,
+        selected,
+        cuisine="Tümü",
+        category="Tümü",
+        max_time=None,
+        max_missing_required=None,
+        include_default_pantry=include_pantry,
+        min_score=0,
+    )[:12]
+
+if fallback_mode:
+    st.subheader(f"En yakın {len(results)} tarif")
+else:
+    st.subheader(f"{len(results)} tarif bulundu")
 
 if not results:
-    st.warning("Bu filtrelerle tarif bulunamadı. Eksik malzeme toleransını veya minimum skoru düşürmeyi dene.")
+    st.error("Hiç yakın eşleşme bulunamadı. Tarif havuzuna bu malzeme ailesinden yeni tarif eklemek gerekir.")
     st.stop()
 
 for result in results:
