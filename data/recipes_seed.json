@@ -1,0 +1,233 @@
+[
+  {
+    "id": "tr-menemen",
+    "name": "Menemen",
+    "cuisine": "Türk",
+    "category": "Kahvaltı",
+    "time_min": 20,
+    "difficulty": "Kolay",
+    "servings": 2,
+    "required_ingredients": ["yumurta", "domates", "yeşil biber", "zeytinyağı"],
+    "optional_ingredients": ["soğan", "kaşar", "pul biber", "karabiber"],
+    "pantry_items": ["tuz"],
+    "substitutions": {
+      "yeşil biber": ["kapya biber", "çarliston biber"],
+      "domates": ["konserve domates", "rendelenmiş domates"]
+    },
+    "equipment": ["tava"],
+    "steps": [
+      "Biberleri doğrayıp yağda yumuşayana kadar çevir.",
+      "Domatesi ekleyip suyunu hafif çektir.",
+      "Yumurtaları kırıp kısık ateşte istediğin kıvama getir.",
+      "Tuz ve baharatla servis et."
+    ],
+    "critical_tips": ["Domates suyunu çok kurutma; yumurtayı eklediğinde sulu bir taban kalmalı."],
+    "tags": ["ekonomik", "hızlı", "vejetaryen"],
+    "quality_score": 91
+  },
+  {
+    "id": "tr-mercimek-corbasi",
+    "name": "Süzme Mercimek Çorbası",
+    "cuisine": "Türk",
+    "category": "Çorba",
+    "time_min": 35,
+    "difficulty": "Kolay",
+    "servings": 4,
+    "required_ingredients": ["kırmızı mercimek", "soğan", "havuç", "tereyağı"],
+    "optional_ingredients": ["patates", "salça", "limon", "nane", "pul biber"],
+    "pantry_items": ["su", "tuz", "karabiber"],
+    "substitutions": {
+      "tereyağı": ["zeytinyağı", "sıvı yağ"],
+      "havuç": ["patates"]
+    },
+    "equipment": ["tencere", "blender"],
+    "steps": [
+      "Soğan ve havucu yağda kısa süre çevir.",
+      "Yıkanmış mercimeği ekle, su ilave et.",
+      "Mercimekler dağılana kadar pişir.",
+      "Blenderdan geçirip tuz ve baharatla ayarla."
+    ],
+    "critical_tips": ["Çorba koyulaşırsa sıcak suyla aç; soğuk su kıvamı bozar."],
+    "tags": ["ekonomik", "vejetaryen", "çorba"],
+    "quality_score": 92
+  },
+  {
+    "id": "tr-yogurtlu-makarna",
+    "name": "Sarımsaklı Yoğurtlu Makarna",
+    "cuisine": "Türk",
+    "category": "Pratik",
+    "time_min": 18,
+    "difficulty": "Kolay",
+    "servings": 2,
+    "required_ingredients": ["makarna", "yoğurt", "sarımsak"],
+    "optional_ingredients": ["tereyağı", "nane", "pul biber", "ceviz"],
+    "pantry_items": ["su", "tuz"],
+    "substitutions": {"yoğurt": ["süzme yoğurt + su", "labne"]},
+    "equipment": ["tencere", "kase"],
+    "steps": [
+      "Makarnayı tuzlu suda haşla.",
+      "Yoğurt, ezilmiş sarımsak ve tuzu karıştır.",
+      "Makarnayı yoğurtla birleştir.",
+      "İstersen tereyağlı nane-pul biber gezdir."
+    ],
+    "critical_tips": ["Yoğurdu çok sıcak makarnaya hemen ekleme; kesilmemesi için makarnayı hafif ılıt."],
+    "tags": ["hızlı", "az malzemeli", "ekonomik"],
+    "quality_score": 87
+  },
+  {
+    "id": "tr-tavuklu-pilav",
+    "name": "Tavuklu Pilav",
+    "cuisine": "Türk",
+    "category": "Ana yemek",
+    "time_min": 45,
+    "difficulty": "Orta",
+    "servings": 4,
+    "required_ingredients": ["tavuk", "pirinç", "tereyağı"],
+    "optional_ingredients": ["tavuk suyu", "şehriye", "karabiber", "limon"],
+    "pantry_items": ["su", "tuz"],
+    "substitutions": {
+      "tereyağı": ["zeytinyağı"],
+      "tavuk suyu": ["normal su + tereyağı"]
+    },
+    "equipment": ["tencere"],
+    "steps": [
+      "Tavuğu haşla ve didikle.",
+      "Pirinci yıkayıp süz.",
+      "Tereyağında pirinci kavur, su veya tavuk suyu ekle.",
+      "Kısık ateşte pişirip tavukla servis et."
+    ],
+    "critical_tips": ["Pilavı pişince 10 dakika dinlendirmek tane tane sonuç verir."],
+    "tags": ["doyurucu", "protein", "klasik"],
+    "quality_score": 90
+  },
+  {
+    "id": "tr-tavuk-sote",
+    "name": "Salçalı Tavuk Sote",
+    "cuisine": "Türk",
+    "category": "Ana yemek",
+    "time_min": 30,
+    "difficulty": "Kolay",
+    "servings": 3,
+    "required_ingredients": ["tavuk", "soğan", "salça"],
+    "optional_ingredients": ["yeşil biber", "domates", "sarımsak", "kekik"],
+    "pantry_items": ["tuz", "karabiber", "su", "zeytinyağı"],
+    "substitutions": {
+      "tavuk": ["hindi", "mantar"],
+      "domates": ["konserve domates"]
+    },
+    "equipment": ["tava"],
+    "steps": [
+      "Tavuğu küp doğrayıp yüksek ateşte mühürle.",
+      "Soğanı ekleyip yumuşat.",
+      "Salçayı ve az sıcak suyu ekle.",
+      "Kapağı kapatıp kısa süre pişir."
+    ],
+    "critical_tips": ["Tavuğu tavaya attıktan sonra suyunu salmadan mühürlemek için tavayı kalabalıklaştırma."],
+    "tags": ["protein", "pratik", "ana yemek"],
+    "quality_score": 88
+  },
+  {
+    "id": "it-aglio-olio",
+    "name": "Spaghetti Aglio e Olio",
+    "cuisine": "İtalyan",
+    "category": "Makarna",
+    "time_min": 18,
+    "difficulty": "Kolay",
+    "servings": 2,
+    "required_ingredients": ["spagetti", "sarımsak", "zeytinyağı"],
+    "optional_ingredients": ["pul biber", "maydanoz", "parmesan", "limon"],
+    "pantry_items": ["su", "tuz", "karabiber"],
+    "substitutions": {
+      "spagetti": ["makarna"],
+      "parmesan": ["eski kaşar", "kaşar"]
+    },
+    "equipment": ["tencere", "tava"],
+    "steps": [
+      "Makarnayı tuzlu suda al dente haşla.",
+      "Sarımsağı zeytinyağında yakmadan çevir.",
+      "Makarna suyundan ekleyip sosu bağla.",
+      "Makarna ve maydanozla birleştir."
+    ],
+    "critical_tips": ["Sarımsağı yakarsan yemek acılaşır; kısık-orta ateş kullan."],
+    "tags": ["az malzemeli", "hızlı", "vejetaryen"],
+    "quality_score": 93
+  },
+  {
+    "id": "in-tikka-benzeri",
+    "name": "Yoğurt Marineli Tavuk",
+    "cuisine": "Hint esintili",
+    "category": "Ana yemek",
+    "time_min": 40,
+    "difficulty": "Kolay",
+    "servings": 3,
+    "required_ingredients": ["tavuk", "yoğurt", "sarımsak"],
+    "optional_ingredients": ["zencefil", "köri", "limon", "salça", "kimyon"],
+    "pantry_items": ["tuz", "karabiber", "zeytinyağı"],
+    "substitutions": {
+      "yoğurt": ["süzme yoğurt"],
+      "köri": ["kimyon + zerdeçal + pul biber"]
+    },
+    "equipment": ["tava", "fırın"],
+    "steps": [
+      "Tavukları yoğurt, sarımsak ve baharatla marine et.",
+      "En az 20 dakika beklet.",
+      "Tavada veya fırında pişir.",
+      "Pilav veya salatayla servis et."
+    ],
+    "critical_tips": ["Yoğurt marinasyonu tavuğu yumuşatır; çok yüksek ateşte yoğurdu yakma."],
+    "tags": ["protein", "tavuk", "marinasyon"],
+    "quality_score": 90
+  },
+  {
+    "id": "ea-fried-rice",
+    "name": "Yumurtalı Fried Rice",
+    "cuisine": "Uzak Doğu",
+    "category": "Ana yemek",
+    "time_min": 20,
+    "difficulty": "Kolay",
+    "servings": 2,
+    "required_ingredients": ["pirinç", "yumurta", "soya sosu"],
+    "optional_ingredients": ["havuç", "bezelye", "tavuk", "sarımsak", "taze soğan"],
+    "pantry_items": ["zeytinyağı", "tuz"],
+    "substitutions": {
+      "soya sosu": ["az tuz + sirke + pekmez dokunuşu"],
+      "pirinç": ["dünden kalma pilav"]
+    },
+    "equipment": ["tava", "wok"],
+    "steps": [
+      "Yumurtayı tavada pişirip kenara al.",
+      "Sebze ve sarımsağı hızlıca sotele.",
+      "Pirinç/pilavı ekleyip yüksek ateşte çevir.",
+      "Soya sosu ve yumurtayla bitir."
+    ],
+    "critical_tips": ["Dünden kalan soğuk pilav daha iyi sonuç verir; sıcak pilav lapa olabilir."],
+    "tags": ["hızlı", "artık değerlendirme", "protein"],
+    "quality_score": 91
+  },
+  {
+    "id": "med-greek-bowl",
+    "name": "Yoğurtlu Tavuk Akdeniz Kasesi",
+    "cuisine": "Akdeniz",
+    "category": "Ana yemek",
+    "time_min": 35,
+    "difficulty": "Kolay",
+    "servings": 2,
+    "required_ingredients": ["tavuk", "yoğurt", "sarımsak", "pirinç"],
+    "optional_ingredients": ["salatalık", "domates", "limon", "zeytin", "kekik"],
+    "pantry_items": ["tuz", "karabiber", "zeytinyağı"],
+    "substitutions": {
+      "pirinç": ["bulgur", "lavaş"],
+      "yoğurt": ["süzme yoğurt"]
+    },
+    "equipment": ["tava", "tencere"],
+    "steps": [
+      "Pilav veya bulgur tabanı hazırla.",
+      "Tavuğu tavada pişir.",
+      "Yoğurt, sarımsak ve limonla sos yap.",
+      "Sebzelerle kase halinde servis et."
+    ],
+    "critical_tips": ["Yoğurt sosunu tavuğun üstüne servis sırasında koy; tavada ısıtma."],
+    "tags": ["protein", "kase", "ferah"],
+    "quality_score": 89
+  }
+]
