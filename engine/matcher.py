@@ -11,7 +11,7 @@ from .scoring import MatchResult, score_recipe
 
 
 def load_recipes(path: str | Path) -> list[dict]:
-    """Load curated JSON recipes and append the expanded starter catalog."""
+    """Load curated JSON recipes and append curated extra recipes."""
     with Path(path).open("r", encoding="utf-8") as f:
         recipes = json.load(f)
 
@@ -50,6 +50,8 @@ def match_recipes(
             continue
 
         result = score_recipe(recipe, user_ingredients, include_default_pantry)
+        if not result.has_real_overlap:
+            continue
         if max_missing_required is not None and len(result.missing_required) > max_missing_required:
             continue
         if result.score < min_score:
