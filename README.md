@@ -1,4 +1,4 @@
-# Şahvername V0.1
+# Şahvername V0.2
 
 **Şahvername**, kullanıcının elindeki malzemelere göre gerçekten yapılabilir yemek tariflerini uyum yüzdesiyle sıralayan bir tarif öneri programıdır.
 
@@ -14,7 +14,8 @@ Ana fikir:
 - Opsiyonel malzeme eşleşmesi
 - Mutfak, kategori, süre ve eksik malzeme toleransı filtreleri
 - Tarif adımları, alternatif malzeme ve püf noktası sekmeleri
-- Başlangıç için elle düzenlenmiş kaliteli seed tarif havuzu
+- 31 elle düzenlenmiş çekirdek tarif + genişletilmiş başlangıç kataloğu
+- Filtreler çok dar kalırsa otomatik “en yakın tarifler” fallback’i
 
 ## Kurulum
 
@@ -31,12 +32,24 @@ sahvername/
 ├─ data/
 │  └─ recipes_seed.json
 ├─ engine/
+│  ├─ extra_recipes.py
 │  ├─ matcher.py
 │  ├─ normalizer.py
 │  └─ scoring.py
+├─ tests/
+│  └─ test_engine.py
 ├─ requirements.txt
 └─ README.md
 ```
+
+## Tarif havuzu mantığı
+
+Şahvername iki katmanlı çalışır:
+
+1. `data/recipes_seed.json`: elle düzenlenmiş çekirdek tarifler.
+2. `engine/extra_recipes.py`: MVP'nin çok daha fazla malzeme kombinasyonunda sonuç verebilmesi için genişletilmiş başlangıç kataloğu.
+
+Bu yapı ileride SQLite veya gerçek tarif yönetim paneline geçene kadar hızlı geliştirme sağlar.
 
 ## Tarif kabul standardı
 
