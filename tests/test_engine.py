@@ -24,3 +24,30 @@ def test_matcher_prefers_complete_recipe():
     assert len(results) == 1
     assert results[0].missing_required == []
     assert results[0].score > 80
+
+
+def test_unrelated_recipe_is_not_returned():
+    recipes = [
+        {
+            "name": "Sütlaç",
+            "cuisine": "Türk",
+            "category": "Tatlı",
+            "time_min": 45,
+            "required_ingredients": ["pirinç", "süt", "şeker"],
+            "optional_ingredients": ["tarçın"],
+            "quality_score": 90,
+        },
+        {
+            "name": "Mantar Sote",
+            "cuisine": "Türk",
+            "category": "Pratik",
+            "time_min": 18,
+            "required_ingredients": ["mantar", "sarımsak", "tereyağı"],
+            "optional_ingredients": ["maydanoz"],
+            "quality_score": 90,
+        },
+    ]
+    results = match_recipes(recipes, ["mantar"], min_score=0, max_missing_required=None)
+    names = [result.recipe["name"] for result in results]
+    assert "Mantar Sote" in names
+    assert "Sütlaç" not in names
