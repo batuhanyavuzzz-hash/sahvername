@@ -21,6 +21,7 @@ class MatchResult:
     missing_required: list[str]
     matched_optional: list[str]
     missing_optional: list[str]
+    has_real_overlap: bool
 
 
 def score_recipe(
@@ -28,7 +29,14 @@ def score_recipe(
     user_ingredients: set[str],
     include_default_pantry: bool = True,
 ) -> MatchResult:
-    available = set(user_ingredients)
+    """Score a recipe.
+
+    Pantry items are allowed for cooking, but they must not create relevance by
+    themselves. If the user says only "mantar", a recipe with zero overlap to
+    mantar should get 0 and never appear as a suggestion.
+    """
+    real_user_ingredients = set(user_ingredients)
+    available = set(real_user_ingredients)
     if include_default_pantry:
         available |= DEFAULT_PANTRY
 
@@ -43,19 +51,28 @@ def score_recipe(
     matched_optional = sorted(optional & available)
     missing_optional = sorted(optional - available)
 
+    real_overlap = (required | optional) & real_user_ingredients
+    has_real_overlap = bool(real_overlap)
+
     required_ratio = len(matched_required) / len(required) if required else 1.0
     optional_ratio = len(matched_optional) / len(optional) if optional else 0.0
     quality = max(0, min(100, int(recipe.get("quality_score", 75)))) / 100
 
-    # Material match is dominant. Quality gently reorders close matches.
-    raw_score = (required_ratio * 70) + (optional_ratio * 15) + (quality * 15)
+    if not has_real_overlap:
+        score = 0
+    else:
+        # Relevance and required coverage dominate. Quality only breaks ties.
+        raw_score = (required_ratio * 78) + (optional_ratio * 10) + (quality * 12)
 
-    # Missing required ingredients hurt strongly. A recipe with 2 missing essentials
-    # should not outrank a complete but slightly lower-quality recipe.
-    raw_score -= len(missing_required) * 8
+        # Strong missing-essential penalty. This prevents "sütlaç" style nonsense
+        # when the user only entered an unrelated ingredient.
+        raw_score -= len(missing_required) * 18
 
-    # Keep in 0-100 range.
-    score = int(round(max(0, min(100, raw_score))))
+        # A recipe where the ingredient is only optional can be shown, but lower.
+        if not matched_required and matched_optional:
+            raw_score = min(raw_score, 28)
+
+        score = int(round(max(0, min(100, raw_score))))
 
     return MatchResult(
         recipe=recipe,
@@ -66,4 +83,5 @@ def score_recipe(
         missing_required=missing_required,
         matched_optional=matched_optional,
         missing_optional=missing_optional,
+        has_real_overlap=has_real_overlap,
     )
