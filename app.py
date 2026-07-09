@@ -18,6 +18,10 @@ st.set_page_config(
 )
 
 
+def clear_ingredients() -> None:
+    st.session_state["selected_ingredients"] = []
+
+
 @st.cache_data
 def get_recipes() -> list[dict]:
     return load_recipes(RECIPES_PATH)
@@ -34,34 +38,45 @@ with st.sidebar:
     selected = st.multiselect(
         "Elindeki malzemeleri seç",
         options=ingredients,
-        placeholder="Örn: tavuk, yoğurt, sarımsak...",
+        key="selected_ingredients",
+        placeholder="Örn: mantar, tavuk, yoğurt...",
     )
+    selected = [item for item in selected if str(item).strip()]
+    st.caption(f"Seçili malzeme: {len(selected)}")
+    st.button("Seçimi temizle", on_click=clear_ingredients, use_container_width=True)
 
     st.divider()
     st.header("Filtreler")
     cuisines = ["Tümü"] + sorted({r["cuisine"] for r in recipes})
     categories = ["Tümü"] + sorted({r["category"] for r in recipes})
 
-    cuisine = st.selectbox("Mutfak", cuisines)
-    category = st.selectbox("Kategori", categories)
-    time_choice = st.selectbox("Maksimum süre", ["Fark etmez", "15 dk", "30 dk", "45 dk", "60 dk"])
-    missing_choice = st.selectbox("Eksik zorunlu malzeme toleransı", [0, 1, 2, 3, "Fark etmez"], index=3)
-    include_pantry = st.checkbox("Tuz, su, yağ gibi temel malzemeleri var say", value=True)
-    min_score = st.slider("Minimum uyum skoru", min_value=0, max_value=100, value=25, step=5)
+    cuisine = st.selectbox("Mutfak", cuisines, disabled=len(selected) == 0)
+    category = st.selectbox("Kategori", categories, disabled=len(selected) == 0)
+    time_choice = st.selectbox("Maksimum süre", ["Fark etmez", "15 dk", "30 dk", "45 dk", "60 dk"], disabled=len(selected) == 0)
+    missing_choice = st.selectbox("Eksik zorunlu malzeme toleransı", [0, 1, 2, 3, "Fark etmez"], index=3, disabled=len(selected) == 0)
+    include_pantry = st.checkbox("Tuz, su, yağ gibi temel malzemeleri var say", value=True, disabled=len(selected) == 0)
+    min_score = st.slider("Minimum uyum skoru", min_value=0, max_value=100, value=25, step=5, disabled=len(selected) == 0)
 
 time_map = {"15 dk": 15, "30 dk": 30, "45 dk": 45, "60 dk": 60}
 max_time = time_map.get(time_choice)
 max_missing = None if missing_choice == "Fark etmez" else int(missing_choice)
 
-if not selected:
-    st.info("Soldan elindeki birkaç malzemeyi seç. İlk sonuçlar uyum yüzdesine göre sıralanacak.")
-    st.subheader("Şahvername V0.2 veri havuzu")
+# Hard product rule: no ingredients, no recipe cards.
+# The user must never see recipe suggestions before selecting at least one real ingredient.
+if len(selected) == 0:
+    st.info("Önce soldan elindeki malzemeleri seç. Malzeme seçmeden tarif önerisi gösterilmez.")
+    st.subheader("Şahvername veri havuzu")
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Tarif", len(recipes))
+    col1.metric("Kürasyon adayı tarif", len(recipes))
     col2.metric("Mutfak", len({r['cuisine'] for r in recipes}))
     col3.metric("Malzeme", len(all_ingredients(recipes)))
     col4.metric("Ortalama kalite", f"{round(sum(r.get('quality_score', 0) for r in recipes) / len(recipes))}/100")
+
+    st.markdown("### Nasıl kullanılır?")
+    st.write("Örnek: sadece **mantar** seçersen Şahvername yalnızca mantarla gerçekten ilişkili tarifleri arar. Sütlaç, pilav veya alakasız tatlılar gösterilmez.")
     st.stop()
+
+st.success("Seçili malzemeler: " + ", ".join(selected))
 
 results = match_recipes(
     recipes,
@@ -78,7 +93,7 @@ fallback_mode = False
 if not results:
     fallback_mode = True
     st.warning(
-        "Bu filtrelerle tam sonuç çıkmadı. Filtreleri gevşetip en yakın tarifleri gösteriyorum."
+        "Bu filtrelerle tam sonuç çıkmadı. Filtreleri gevşetip yalnızca seçtiğin malzemeyle ilişkili en yakın tarifleri gösteriyorum."
     )
     results = match_recipes(
         recipes,
@@ -88,7 +103,7 @@ if not results:
         max_time=None,
         max_missing_required=None,
         include_default_pantry=include_pantry,
-        min_score=0,
+        min_score=1,
     )[:12]
 
 if fallback_mode:
@@ -97,7 +112,7 @@ else:
     st.subheader(f"{len(results)} tarif bulundu")
 
 if not results:
-    st.error("Hiç yakın eşleşme bulunamadı. Tarif havuzuna bu malzeme ailesinden yeni tarif eklemek gerekir.")
+    st.error("Bu malzemeyle ilişkili tarif bulunamadı. Bu, tarif havuzuna bu malzeme ailesinden kaliteli tarif eklememiz gerektiğini gösterir.")
     st.stop()
 
 for result in results:
